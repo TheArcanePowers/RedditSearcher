@@ -4,8 +4,6 @@ reddit = praw.Reddit("main-bot", user_agent="windows:github:alpha-1 (by u/thearc
 reddit.read_only = True
 #ticker extraction
 import reticker
-tickersMentionDict = {}
-tickersScoreDict = {}
 #ticker validation
 import urllib.request as request
 from contextlib import closing
@@ -24,18 +22,12 @@ with closing(request.urlopen("ftp://ftp.nasdaqtrader.com/SymbolDirectory/otherli
 #reportWriter
 import csv
 ###
-print("Finished initialization")
 
 #definitions
 def tickerizeTitle(submission):
-#    print(submission.title)
     extractor = reticker.TickerExtractor()
     return extractor.extract(submission.title)
 
-#main funcition
-#updates every 15 min
-
-##ticker cleanup
 def tickerCleanup(tickerDict):
     tickerDictClean = dict(tickerDict)
     for i in tickerDict:   
@@ -51,6 +43,8 @@ def tickerCleanup(tickerDict):
 
 def analyzeMentions(subreddit):
 #most mentioned tickers in past week
+    print("Analyzing " + subreddit + " for mentions...")
+    tickersMentionDict = {}
     for submission in reddit.subreddit(subreddit).new(limit=1000):
         tickers = tickerizeTitle(submission)
         for i in tickers:
@@ -64,6 +58,8 @@ def analyzeMentions(subreddit):
 
 def analyzeScores(subreddit):
 #most upvoted tickers
+    print("Analyzing " + subreddit + " for scores...")
+    tickersScoreDict = {}
     for submission in reddit.subreddit(subreddit).new(limit=1000):
         tickers = tickerizeTitle(submission)
         upvotes = submission.score
@@ -74,26 +70,3 @@ def analyzeScores(subreddit):
                 else:
                     tickersScoreDict[i] = int(upvotes)
     return dict(tickerCleanup(tickersScoreDict))
-
-def writeReport(my_dict, filename):
-    with open(filename + '.csv', 'w') as f:  
-        w = csv.writer(f)
-        w.writerows(my_dict.items())
-    print("Report generated called " + filename + ".csv")
-
-while 1 == 1:
-    subreddits = input("subreddits to analyse: ")
-    subreddits = "".join(subreddits.split()) # clean up subreddits
-    operation = input("Operation (Mentions(1) or Scores(2), or both (3)): ")
-    filename = input("Filename: ")
-    
-    for sub in subreddits.split(","):
-        if operation == "1":
-            writeReport(analyzeMentions(sub), filename)
-        elif operation == "2":
-            writeReport(analyzeScores(sub), filename)
-        elif operation == "3":
-            writeReport(analyzeMentions(sub), filename)
-            writeReport(analyzeScores(sub), filename)
-        else:
-            print("Invalid Operation!")
