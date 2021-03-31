@@ -11,6 +11,8 @@ Currently in **Alpha!**
   $ python setup.py install
 ```
 
+Do not forget to create a [praw.ini][https://praw.readthedocs.io/en/latest/getting_started/configuration/prawini.html] file under the name of `main-bot`!
+
 # Usage
 ```bash
 $ redditsearcher --help

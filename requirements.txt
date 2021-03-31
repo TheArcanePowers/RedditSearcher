@@ -1,5 +1,4 @@
 praw
 reticker
-re
-urllib
+urllib3
 fire
