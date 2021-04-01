@@ -39,6 +39,9 @@ setup (name = 'redditsearcher',
         "Programming Language :: Python :: 3",
         "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
     ],
+    entry_points = {
+        'console_scripts': ['redditsearcher=redditsearcher.command_line.py:main'],
+    },
     include_package_data=True,
     zip_safe=False
 )
