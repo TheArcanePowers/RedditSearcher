@@ -1,7 +1,9 @@
 # RedditSearcher
 A simple commandline app for generating csv files to see the most mentioned and highest scoring US tickers in reddit subreddits.
 
-Currently in **Alpha!**
+Currently in **Alpha-2!**
+
+Program will create an entry for each ticker mentioned in the last day in each subreddit given, and generate a CSV entry with the number of mentions, total score of all posts, and adjusted stock prices at start and end of market.
 
 # Installation
 ## Manual
@@ -16,14 +18,8 @@ Do not forget to create a [praw.ini][https://praw.readthedocs.io/en/latest/getti
 # Usage
 ```bash
 $ redditsearcher --help
-$ redditsearcher subreddits operation
+$ redditsearcher subreddit1,subreddit2,...
 ```
 ## subreddits
-comma seperated list of subreddits
+subreddits can be as many as wanted, written as a comma seperated list.
 
-## operation
-Can be either:
-
-**S**cores
-**M**entions
-**B**oth
