@@ -1,40 +1,20 @@
-from main import analyzeMentions, analyzeScores
+from main import analyzeSubreddit
 import fire
 import csv
 
-def writeReport(my_dict, filename):
-    with open(filename + '.csv', 'w') as f:  
-        w = csv.writer(f)
-        w.writerows(my_dict.items())
-    print("Report generated called " + filename + ".csv")
-
-def main(subreddits: str, operation="B"):
+def main(subreddits: str):
     """
-    redditsearcher - see what stocks are trending!
+    redditsearcher - see what stonks are trending!
     :param subreddits: comma seperated list of subreddits to create reports for
-    :param operation: (M)entions, (S)cores, or (B)oth
-    :return creates reports
+    :return appends/created CSV files for newest subreddit posts, with their opening and closing dates.
     """
-    operation = operation.upper()[0]
+    print("ONLY RUN THIS AFTER 21:00 GMT")
+    
     if type(subreddits) is tuple:
         for i in range(0, len(subreddits)):
-            if operation == "M":
-                writeReport(analyzeMentions(subreddits[i]), subreddits[i] + "_mentions")
-            elif operation == "S":
-                writeReport(analyzeScores(subreddits[i]), subreddits[i] + "_scores")
-            elif operation == "B":
-                writeReport(analyzeMentions(subreddits[i]), subreddits[i] + "_mentions")
-                writeReport(analyzeScores(subreddits[i]), subreddits[i] + "_scores")
-            else:
-                print("Invalid Operation!")
+            analyzeSubreddit(subreddits[i])
     else:
-        if operation == "M":
-            writeReport(analyzeMentions(subreddits), subreddits + "_mentions")
-        elif operation == "S":
-            writeReport(analyzeScores(subreddits), subreddits + "_scores")
-        elif operation == "B":
-            writeReport(analyzeMentions(subreddits), subreddits + "_mentions")
-            writeReport(analyzeScores(subreddits), subreddits + "_scores")
+        analyzeSubreddit(subreddits)
 
 if __name__ == "__main__":
     print("""
