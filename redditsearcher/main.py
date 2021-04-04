@@ -94,7 +94,7 @@ def analyzeSub(subreddit):
 def stockPrices(ticker):
     import yfinance as yf
     data = yf.Ticker(ticker).history(period="1d")
-    return round(data['Open'].array[0],2), round(data['Close'].array[0],2)
+    return round(data['Open'].array[0],2), round(data['Close'].array[0],2), round(data['High'].array[0],2), round(data['Low'].array[0],2), round(data['Volume'].array[0],2), 
 
 def analyzeSubreddit(subreddit):
     if len(tickerTuple) == 0:
@@ -102,20 +102,21 @@ def analyzeSubreddit(subreddit):
     
     date = datetime.now().strftime("%d/%m/%y")
     mentions, scores = analyzeSub(subreddit)
-    if os.path.exists(subreddit + ".csv"):
+
+    if os.path.exists(f"outputs/{subreddit}.csv"):
         append_write = 'a' # append if already exists
     else:
         append_write = 'w' # make a new file if not
 
     print("getting stock prices")
-    with open(subreddit + '.csv', mode=append_write, newline='') as file:
+    with open(f"outputs/{subreddit}.csv", mode=append_write, newline='') as file:
         writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         
         if append_write == "w":
-            writer.writerow(["date","ticker","scores","mentions","openprice_adj","closeprice_adj"])
+            writer.writerow(["date","ticker","scores","mentions","openprice_adj","closeprice_adj","dailyHigh","dailyLow","volume"])
 
         for stock in scores:
-            openPrice, closePrice = stockPrices(stock)
-            writer.writerow([date,stock,scores.get(stock),mentions.get(stock),openPrice,closePrice])
+            openPrice, closePrice, dailyHigh, dailyLow, volumeTraded = stockPrices(stock)
+            writer.writerow([date,stock,scores.get(stock),mentions.get(stock),openPrice,closePrice,dailyHigh,dailyLow,volumeTraded])
     
     print(subreddit + '.csv completed.')

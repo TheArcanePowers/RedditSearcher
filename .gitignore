@@ -9,7 +9,7 @@ __pycache__/
 # PRAW credentials
 praw.ini
 
-*.csv
+outputs/*.csv
 
 # Distribution / packaging
 .Python
