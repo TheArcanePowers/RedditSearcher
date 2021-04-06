@@ -1,4 +1,7 @@
 #Preamble
+import os
+import sys
+os.chdir(os.path.dirname(sys.argv[0])) #Change the scripts working directory to the script's own directory
 import praw
 reddit = praw.Reddit("main-bot", user_agent="windows:github:alpha-2 (by u/thearcanepowers)")
 reddit.read_only = True
@@ -14,7 +17,6 @@ tickerTuple = ()
 import csv
 import calendar
 from datetime import datetime
-import os
 ###
 
 def tickerize(submissionattribute):
