@@ -12,3 +12,11 @@ This removes clutter completely, and allows one to run anaylsis on the data per 
 Because more data is always better than less, the program was made to colect High and Low data too. Additionally, the API was changed to yfinance - which makes the collection of all that data very easy.
 
 For the sake of cleanliness of running areas, program creates an output folder which is where the csv files are created.
+
+#The First Run
+The first run taught me a few things. Most importantly, don't ever rely on human input to play nice.
+Errors were being thrown left and right, and it turned out random words like "HOLD" passed both the re ticker checker, the actual ticker checker (as it was a valid ticker) but was actually unlisted! Thus, erroring out a function that was behind two safeguards.
+
+Easy fix, just a try, except to return error values and allow the rest of the operation to continue. Along with this, the day's outputs were quickly looked over, and any clear false tickers were added to either the common or subreddit-specific blocklist. 
+
+Thus introduces **version 2.1**. !!Soon, version 2.2 will include proper try except catces on all functions dealing with human input!!

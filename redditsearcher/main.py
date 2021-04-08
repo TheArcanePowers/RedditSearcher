@@ -2,9 +2,12 @@
 import os
 import sys
 os.chdir(os.path.dirname(sys.argv[0])) #Change the scripts working directory to the script's own directory
-import praw
-reddit = praw.Reddit("main-bot", user_agent="windows:github:alpha-2 (by u/thearcanepowers)")
-reddit.read_only = True
+try:
+    import praw
+    reddit = praw.Reddit("main-bot", user_agent="windows:github:alpha-2 (by u/thearcanepowers)")
+    reddit.read_only = True
+except:
+    sys.exit("No valid praw.ini file! Please ensure one in script's directory and with heading [main-bot]")
 #ticker extraction
 import reticker
 #ticker validation
@@ -26,13 +29,13 @@ def tickerize(submissionattribute):
 def tickerCleanup(tickerDict, subreddit):
     blacklisted = []
     try:
-        with open(f"redditsearcher/blacklists/{subreddit}", mode="r") as file:
+        with open(f"blacklists/{subreddit}", mode="r") as file:
             for line in file:
                 blacklisted.append(line.split("|")[0])
     except IOError:
         pass
     
-    with open("redditsearcher/blacklists/common", mode="r") as file:
+    with open("blacklists/common", mode="r") as file:
         for line in file:
             blacklisted.append(line.split("|")[0])
 
@@ -95,8 +98,12 @@ def analyzeSub(subreddit):
 
 def stockPrices(ticker):
     import yfinance as yf
-    data = yf.Ticker(ticker).history(period="1d")
-    return round(data['Open'].array[0],2), round(data['Close'].array[0],2), round(data['High'].array[0],2), round(data['Low'].array[0],2), round(data['Volume'].array[0],2), 
+    try:
+        data = yf.Ticker(ticker).history(period="1d")
+        return round(data['Open'].array[0],2), round(data['Close'].array[0],2), round(data['High'].array[0],2), round(data['Low'].array[0],2), round(data['Volume'].array[0],2), 
+    except:
+        print(f"{ticker} failed!")
+        return "error","error","error","error","error" #error out to continue operation
 
 def analyzeSubreddit(subreddit):
     if len(tickerTuple) == 0:
