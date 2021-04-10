@@ -11,7 +11,7 @@ praw.ini
 
 .github
 
-src/redditsearcher/output/*.csv
+src/redditsearcher/outputs/*.csv
 
 # Distribution / packaging
 .Python
