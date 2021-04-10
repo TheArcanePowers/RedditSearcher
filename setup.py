@@ -1,49 +1,39 @@
-from setuptools import setup, find_packages
-from io import open
-from os import path
+import setuptools
 
-import pathlib
-# The directory containing this file
-HERE = pathlib.Path(__file__).parent
-
-# The text of the README file
-README = (HERE / "README.md").read_text()
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
 
 # automatically captured required modules for install_requires in requirements.txt
-with open(path.join(HERE, 'requirements.txt'), encoding='utf-8') as f:
+with open("requirements.txt", encoding='utf-8') as f:
     all_reqs = f.read().split('\n')
 
-install_requires = [x.strip() for x in all_reqs if ('git+' not in x) and (
-    not x.startswith('#')) and (not x.startswith('-'))]
-dependency_links = [x.strip().replace('git+', '') for x in all_reqs \
-                    if 'git+' not in x]
+install_requires = [x.strip() for x in all_reqs if
+                    (not x.startswith('#')) and (not x.startswith('-'))]
 
-setup (name = 'redditsearcher',
-    description = 'A simple commandline app for generating csv files to see the most mentioned and highest scoring US tickers in reddit subreddits.',
-    version = '1.0.0',
-    packages = find_packages(), # list of all packages
-    install_requires = install_requires,
-    python_requires='>=3.7',
+setuptools.setup(
+    name="redditsearcher-arcanee",  # Replace with your own username
+    version="2.0.0b2",
     author="Leonardo Coppi",
-    keyword="stocks, tickers, csv, reddit, scraper",
-    long_description=README,
+    author_email="leoman.coppi@gmail.com",
+    description="A program for generating csv files to see the most mentioned \
+                and highest scoring US tickers in inputted reddit subreddits.",
+    long_description=long_description,
     long_description_content_type="text/markdown",
-    url='https://github.com/thearcanepowers/redditseacher',
-    author_email='leonardocoppi@outlook.com',
+    url="https://github.com/TheArcanePowers/Stock-Scraper",
+    project_urls={
+        "Bug Tracker": "https://github.com/TheArcanePowers/Stock-Scraper/issues",
+    },
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Programming Language :: Python :: 3",
+        "Development Status :: 4 - Beta",
+        "Operating System :: OS Independent",
+        "License :: Free To Use But Restricted",
         "Environment :: Console",
         "Intended Audience :: Financial and Insurance Industry",
-        "License :: Free To Use But Restricted",
-        "Natural Language :: English",
-        "Programming Language :: Python :: 3",
-        "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+        "Natural Language :: English"
     ],
-    entry_points = {
-        'console_scripts': ['redditsearcher=redditsearcher.command_line.py:main'],
-    },
-    include_package_data=True,
-    zip_safe=False
+    install_requires=install_requires,
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
+    python_requires=">=3.6",
 )
-
-print("DONT FORGET TO CREATE A PRAW.INI FILE!")
