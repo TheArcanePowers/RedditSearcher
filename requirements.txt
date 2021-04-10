@@ -1,6 +1,6 @@
-fire==0.4.0
-praw==7.2.0
-reticker==1.0.3
-requests==2.25.0
-urllib3==1.26.2
-yfinance==0.1.59
+fire>=0.4.0
+praw>=7.2.0
+reticker>=1.0.3
+requests>=2.25.0
+urllib3>=1.26.4
+yfinance>=0.1.59
