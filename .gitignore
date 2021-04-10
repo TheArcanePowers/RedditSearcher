@@ -9,7 +9,9 @@ __pycache__/
 # PRAW credentials
 praw.ini
 
-redditsearcher/outputs/*.csv
+.github
+
+src/redditsearcher/outputs/*
 
 # Distribution / packaging
 .Python
